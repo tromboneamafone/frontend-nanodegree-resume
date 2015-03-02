@@ -5,7 +5,7 @@ work = {
             "title": "Sergeant",
             "dates": "April 18, 2006 - April 17, 2010",
             "description": "MUX radio operator",
-            "location": "Okinawa, Japan & San Diego, California"
+            "location": "Okinawa, Japan"
         },
         {
             "employer": "ENRG Consultants",
@@ -14,7 +14,18 @@ work = {
             "description": "IT guy and general programmer",
             "location": "Farmers Branch, Texas"
         }
-    ]
+    ],
+    "display": function displayWork() {
+        for (job in work.jobs) {
+            $("#workExperience").append(HTMLworkStart);
+            var formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
+            var formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
+            var formattedDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
+            var formattedLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
+            var formattedDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
+            $(".work-entry:last").append(formattedEmployer + formattedTitle + formattedDates + formattedLocation + formattedDescription);
+        }
+    }
 }
 
 projects = {
@@ -45,15 +56,13 @@ bio = {
     "name": "Robert Bevly",
     "role": "Web Development",
     "welcomeMessage": "welcome to my portfolio/resume",
-    "contacts": [
-        {
+    "contacts": {
             "mobile": "(972) 310-9391",
             "email": "robertbevly@gmail.com",
             "github": "tromboneamafone",
+            "twitter": "@RobertBevly",
             "location": "Denton, TX"
-        }
-    ],
-    "age": 29,
+        },
     "skills": [
         "Python",
         "Web Development",
@@ -94,21 +103,6 @@ if (bio.skills.length > 0) {
     }
 }
 
-
-function displayWork() {
-    for (job in work.jobs) {
-        $("#workExperience").append(HTMLworkStart);
-        var formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
-        var formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
-        var formattedDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
-        var formattedLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
-        var formattedDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
-        $(".work-entry:last").append(formattedEmployer + formattedTitle + formattedDates + formattedLocation + formattedDescription);
-    }
-}
-
-displayWork();
-
 $(document).click(function(loc) {
     logClicks(loc.pageX, loc.pageY);
 });
@@ -131,5 +125,6 @@ function inName(name) {
     return formattedName.join(" ");
 }
 
+work.display();
 projects.display();
 $("#mapDiv").append(googleMap);
