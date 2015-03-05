@@ -1,10 +1,57 @@
+bio = {
+    "name": "Robert Bevly",
+    "role": "Web Developer",
+    "contacts": {
+        "mobile": "(972) 310-9391",
+        "email": "robertbevly@gmail.com",
+        "github": "tromboneamafone",
+        "twitter": "@RobertBevly",
+        "location": "Denton, TX",
+        "blog": "NONE",
+    },
+    "welcomeMessage": "welcome to my online resume",
+    "skills": [
+        "Python",
+        "Web Development",
+        "IT",
+    ],
+    "biopic": "images/me.jpg",
+    "display": function display() {
+        // Display name and role in header:
+        var formattedName = HTMLheaderName.replace("%data%", bio.name);
+        var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
+        var formattedWelcomeMessage = HTMLWelcomeMsg.replace("%data%", bio.welcomeMessage);
+        var formattedBiopic = HTMLbioPic.replace("%data%", bio.biopic);
+        var formattedMobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
+        var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
+        var formattedTwitter = HTMLtwitter.replace("%data%", bio.contacts.twitter);
+        var formattedGithub = HTMLgithub.replace("%data%", bio.contacts.github);
+        var formattedBlog = HTMLblog.replace("%data%", bio.contacts.blog);
+        var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
+        $("#header").prepend(formattedName + formattedRole);
+        $("#topContacts").append(formattedMobile + formattedEmail +
+                             formattedGithub + formattedTwitter + formattedLocation);
+        $("#header").append(formattedBiopic + formattedWelcomeMessage);
+
+        // check if there are any skills in bio object and append
+        if (bio.skills.length > 0) {
+            $("#header").append(HTMLskillsStart);
+
+            for (i = 0; i < bio.skills.length; i++) {
+                var formattedSkill = HTMLskills.replace("%data%", bio.skills[i]);
+                $("#skills").append(formattedSkill);
+            }
+        }
+    },
+};
+
 work = {
     "jobs": [
         {
             "employer": "USMC",
             "title": "Sergeant",
             "dates": "April 18, 2006 - April 17, 2010",
-            "description": "MUX radio operator",
+            "description": "Tropospheric Scatter Radio Multi-channel Equipment Operator",
             "location": "Okinawa, Japan"
         },
         {
@@ -52,30 +99,20 @@ projects = {
     }
 }
 
-bio = {
-    "name": "Robert Bevly",
-    "role": "Web Development",
-    "welcomeMessage": "welcome to my portfolio/resume",
-    "contacts": {
-            "mobile": "(972) 310-9391",
-            "email": "robertbevly@gmail.com",
-            "github": "tromboneamafone",
-            "twitter": "@RobertBevly",
-            "location": "Denton, TX"
-        },
-    "skills": [
-        "Python",
-        "Web Development",
-        "IT"
-    ]
-};
-
 education = {
     "schools": [
         {
+            "name": "North Lake College",
+            "location": "Irving, TX, US",
+            "degree": "Core Curriculum",
+            "majors": "None",
+            "dates": "2004-2005",
+            "url": "http://www.northlakecollege.edu"
+        },
+        {
             "name": "University of North Texas",
             "location": "Denton, TX, US",
-            "degree": "Computer Science",
+            "degree": "BS",
             "majors": "Computer Science",
             "dates": "2010-2014",
             "url": "http://www.unt.edu"
@@ -88,43 +125,43 @@ education = {
             "dates": "December 2015 - ????",
             "url": "https://www.udacity.com/nanodegrees"
         }
-    ]
-}
-
-$("#main").append(work["position"]);
-$("#main").append(education.name);
-
-if (bio.skills.length > 0) {
-    $("#header").append(HTMLskillsStart);
-
-    for (i = 0; i < bio.skills.length; i++) {
-        var formattedSkill = HTMLskills.replace("%data%", bio.skills[i]);
-        $("#skills").append(formattedSkill);
+    ],
+    "display": function display() {
+        $("#education").append(HTMLschoolStart);
+        for (school in education.schools) {
+            var formattedSchoolName = HTMLschoolName.replace("%data%", education.schools[school].name);
+            var formattedSchoolDegree = HTMLschoolDegree.replace("%data%", education.schools[school].degree);
+            var formattedSchoolDates = HTMLschoolDates.replace("%data%", education.schools[school].dates);
+            var formattedSchoolLocation = HTMLschoolLocation.replace("%data%", education.schools[school].location);
+            var formattedSchoolMajor = HTMLschoolMajor.replace("%data%", education.schools[school].majors);
+            $(".education-entry:last").append(formattedSchoolName + formattedSchoolDegree +
+                                              formattedSchoolDates + formattedSchoolLocation +
+                                              formattedSchoolMajor);
+        }
+        for (course in education.onlineCourses) {
+            var formattedOnlineTitle = HTMLonlineTitle.replace("%data%", education.onlineCourses[course].title);
+            var formattedOnlineSchool = HTMLonlineSchool.replace("%data%", education.onlineCourses[course].school);
+            var formattedOnlineDates = HTMLonlineDates.replace("%data%", education.onlineCourses[course].dates);
+            var formattedOnlineUrl = HTMLonlineURL.replace("%data%", education.onlineCourses[course].url);
+            $(".education-entry:last").append(HTMLonlineClasses + formattedOnlineTitle + formattedOnlineSchool +
+                                              formattedOnlineDates + formattedOnlineUrl);
+        }
     }
 }
 
+// Log click locations:
 $(document).click(function(loc) {
     logClicks(loc.pageX, loc.pageY);
 });
 
-function locationizer(work_obj) {
-    var locationArray = [];
-
-    for (job in work_obj.jobs) {
-        locationArray.append(work_obj.jobs[job].location);
-    }
-    return locationArray;
-}
-
+// Display 'internationalize' button:
 $("#main").append(internationalizeButton);
 
-function inName(name) {
-    var formattedName = name.trim().split(" ");
-    formattedName[0][1] = formattedName[0][1].toUpperCase();
-    formattedName[1] = formattedName[1].toUpperCase();
-    return formattedName.join(" ");
-}
-
+// Run display functions for each JSON object:
 work.display();
 projects.display();
+bio.display();
+education.display();
+
+// Display Google Maps with locations:
 $("#mapDiv").append(googleMap);
