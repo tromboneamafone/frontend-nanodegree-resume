@@ -1,3 +1,5 @@
+// NEEED TO GIT ADD PICS AND MAKE SURE THEY ARE PROGRAMMED CORRECTLY
+
 bio = {
     "name": "Robert Bevly",
     "role": "Web Developer",
@@ -7,13 +9,13 @@ bio = {
         "github": "tromboneamafone",
         "twitter": "@RobertBevly",
         "location": "Denton, TX",
-        "blog": "NONE",
+        "blog": "NONE"
     },
-    "welcomeMessage": "welcome to my online resume",
+    "welcomeMessage": "welcome to my online portfolio",
     "skills": [
         "Python",
         "Web Development",
-        "IT",
+        "IT"
     ],
     "biopic": "images/me.jpg",
     "display": function display() {
@@ -31,6 +33,8 @@ bio = {
         $("#header").prepend(formattedName + formattedRole);
         $("#topContacts").append(formattedMobile + formattedEmail +
                              formattedGithub + formattedTwitter + formattedLocation);
+        $("#footerContacts").append(formattedMobile + formattedEmail +
+                             formattedGithub + formattedTwitter + formattedLocation);
         $("#header").append(formattedBiopic + formattedWelcomeMessage);
 
         // check if there are any skills in bio object and append
@@ -39,10 +43,10 @@ bio = {
 
             for (i = 0; i < bio.skills.length; i++) {
                 var formattedSkill = HTMLskills.replace("%data%", bio.skills[i]);
-                $("#skills").append(formattedSkill);
+                $("#skills:last").append(formattedSkill);
             }
         }
-    },
+    }
 };
 
 work = {
@@ -78,12 +82,22 @@ work = {
 projects = {
     "project": [
         {
-            "title": "website mockup",
+            "title": "Website mockup",
             "dates": "2014",
-            "description": "given a PDF, create a website mockup",
+            "description": "Given a PDF of a website's wanted layout, create a website mockup in HTML.",
             "images": [
-                "images/fry.jpg",
-            ]
+                "images/project1.png",
+            ],
+            "url": "https://github.com/tromboneamafone/udacity-mockup"
+        },
+        {
+            "title": "Bitcoin Price Alerter",
+            "dates": "2014",
+            "description": "A user enters a threshold amount for email or text message alerts to be sent when the price of 1BTC drops below the threshold they have set.",
+            "images": [
+                "images/project2.png",
+            ],
+            "url": "https://github.com/tromboneamafone/Bitcoin-Alerts"
         }
     ],
     "display": function display() {
@@ -91,6 +105,7 @@ projects = {
         $("#projects").append(HTMLprojectStart);
         for (project in projects.project) {
             var formattedTitle = HTMLprojectTitle.replace("%data%", projects.project[project].title);
+            formattedTitle = formattedTitle.replace("#", projects.project[project].url);
             var formattedDates = HTMLprojectDates.replace("%data%", projects.project[project].dates);
             var formattedDescription = HTMLprojectDescription.replace("%data%", projects.project[project].description);
             var formattedImage = HTMLprojectImage.replace("%data%", projects.project[project].images);
@@ -130,6 +145,7 @@ education = {
         $("#education").append(HTMLschoolStart);
         for (school in education.schools) {
             var formattedSchoolName = HTMLschoolName.replace("%data%", education.schools[school].name);
+            formattedSchoolName = formattedSchoolName.replace("#", education.schools[school].url);
             var formattedSchoolDegree = HTMLschoolDegree.replace("%data%", education.schools[school].degree);
             var formattedSchoolDates = HTMLschoolDates.replace("%data%", education.schools[school].dates);
             var formattedSchoolLocation = HTMLschoolLocation.replace("%data%", education.schools[school].location);
@@ -149,18 +165,10 @@ education = {
     }
 }
 
-// Log click locations:
-$(document).click(function(loc) {
-    logClicks(loc.pageX, loc.pageY);
-});
-
-// Display 'internationalize' button:
-$("#main").append(internationalizeButton);
-
-// Run display functions for each JSON object:
+// Run display functions for each JSON object (works in any order):
+bio.display();
 work.display();
 projects.display();
-bio.display();
 education.display();
 
 // Display Google Maps with locations:

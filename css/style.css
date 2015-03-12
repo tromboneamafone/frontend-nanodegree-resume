@@ -110,6 +110,7 @@ a {
   clear:both;
 }
 
+/*#4A4A4A*/
 .dark-gray {
   background-color: #4A4A4A;
 }
@@ -212,4 +213,8 @@ span {
   .biopic {
     display: block;
   }
+}
+
+.firstHeading {
+    font-style: normal;
 }

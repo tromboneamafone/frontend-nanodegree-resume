@@ -89,9 +89,8 @@ function logClicks(x,y) {
 }
 
 $(document).click(function(loc) {
-  // your code goes here!
+    logClicks(loc.pageX, loc.pageY);
 });
-
 
 /*
 This is the fun part. Here's where we generate the custom Google Map for the website.
@@ -141,6 +140,9 @@ function initializeMap() {
       locations.push(work.jobs[job].location);
     }
 
+    // add location for split time in marine corps:
+    locations.push("Marine Corps Air Station Miramar San Diego California");
+
     return locations;
   }
 
@@ -164,17 +166,42 @@ function initializeMap() {
       title: name
     });
 
+    // Create a infoWindow to set description for each pin:
     // infoWindows are the little helper windows that open when you click
     // or hover over a pin on a map. They usually contain more information
     // about a location.
-    var infoWindow = new google.maps.InfoWindow({
-      content: name
-    });
+    if (marker.title == "Okinawa Prefecture, Japan") {
+        var infoWindow = new google.maps.InfoWindow({
+            content: '<h3 id=firstHeading" class="firstHeading">Camp Hansen Okinawa, Japan</h3>'
+        });
+    }
+    else if (marker.title == "San Diego, CA 92145, United States") {
+        var infoWindow = new google.maps.InfoWindow({
+            content: '<h3 id=firstHeading" class="firstHeading">Marine Corps Air Station Miramar</h3>'
+        });
+    }
+    else if (marker.title == "Irving, TX, USA") {
+        var infoWindow = new google.maps.InfoWindow({
+            content: '<h3 id=firstHeading" class="firstHeading">North Lake College</h3>'
+        });
+    }
+    else if (marker.title == "Farmers Branch, TX, USA") {
+        var infoWindow = new google.maps.InfoWindow({
+            content: '<h3 id=firstHeading" class="firstHeading">ENRG Consultants</h3>'
+        });
+    }
+    else if (marker.title == "Denton, TX, USA") {
+        var infoWindow = new google.maps.InfoWindow({
+            content: '<h3 id=firstHeading" class="firstHeading">University of North Texas</h3>'
+        });
+    }
 
     // hmmmm, I wonder what this is about...
     google.maps.event.addListener(marker, 'click', function() {
       // your code goes here!
+
       infoWindow.open(map, marker);
+      console.log(marker.title);
     });
 
     // this is where the pin actually gets added to the map.

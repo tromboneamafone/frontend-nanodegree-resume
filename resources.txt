@@ -1,0 +1,7 @@
+google api for infoWindows:
+https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple
+
+w3schools for css/html brushing up
+
+JSON checking
+http://jsonlint.com/
